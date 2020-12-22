@@ -5,7 +5,7 @@ const Department = require("./Assets/Department");
 const Role = require("./Assets/Role");
 const Employee = require("./Assets/Employee");
 
-
+// console.table([])
 let employeeTracker = [];
 function tracker() {
   inquirer.prompt([
@@ -55,5 +55,10 @@ function tracker() {
     //     question: "Do you want to add an employee?",
 
     //   },
-  ]);
-}
+  ])
+  .then((response) => {
+    console.log(response);
+})};
+
+tracker();
+
