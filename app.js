@@ -2,13 +2,9 @@
   const cTable = require("console.table");
  const fs = require("fs");
  const connection= require ("./Assets/mysql.js")
-
-// const Department = require("./Assets/Department");
-// const Role = require("./Assets/Role");
- const Employee = require("./Assets/Employee");
-
 // const colors =require("colors")
 const employeeTracker = [];
+employeesGenerator();
 function employeesGenerator() {
   inquirer
     .prompt({ 
@@ -40,11 +36,11 @@ function employeesGenerator() {
         viewEmployee();
         break;
 
-      case "View All Department":
+      case "View All Departments":
         viewDept();
         break;
 
-      case "View All Eployees By Department":
+      case "View All Employees By Department":
         viewEmpldept();
         break;
 
@@ -104,7 +100,11 @@ function employeesGenerator() {
 };
 
 function viewDept(){
-
+connection.query("select * from department;", function(err, data ){
+  if (err) throw err;
+  console.table(data);
+  employeesGenerator();
+})
 
 }
 

@@ -1,5 +1,5 @@
  const mysql=require("mysql");
-  const app =require ("../app.js")
+ 
 
  const connection=mysql.createConnection ({
      host: "localhost",
@@ -18,3 +18,5 @@
      console.log("connected as id " + connection.threadId);
      
  });
+
+ module.exports = connection;
