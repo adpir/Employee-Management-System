@@ -138,16 +138,18 @@ function addEmployee() {
       message:"What is the employee's last name?"
     },
     {
-      type: "input",
+      type: "list",
+      choices:[ 2,4,5,6,7],
       name:"role_id",
       message:"What is the employee's role's id?"
     },
 
     {
-      type: "input",
+      type: "list",
       name:"manager_id",
+      choices:[1,3],
       message:"What is the employee's manager's id?"
-    },
+    }
    
 ])
 .then((response) => {
@@ -155,16 +157,17 @@ function addEmployee() {
  connection.query (
    "INSERT INTO employee SET ?",
  {
-      first_name: response.firstName,
-      last_name: response.lastName,
-      role_id: response.roleId,
-      manager_id: response.managerId
+      first_name: response.first_name,
+      last_name: response.last_name,
+      role_id: response.role_id,
+      manager_id: response.manager_id
  },
- function(err) {
+ function(err,res) {
    if (err) {
      console.log(err);
-     console.cTable(res);
    }
+   console.table(res);
+   employeesGenerator();
  }
 
  );
