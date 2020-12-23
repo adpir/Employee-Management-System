@@ -107,7 +107,23 @@ connection.query("select * from department;", function(err, data ){
 })
 
 }
+function viewRoles(){
+  connection.query("select * from roles;", function(err, data ){
+    if (err) throw err;
+    console.table(data);
+    employeesGenerator();
+  })
+  
+  }
 
+  function  viewEmployee(){
+    connection.query("select * from employee;", function(err, data ){
+      if (err) throw err;
+      console.table(data);
+      employeesGenerator();
+    })
+    
+    }
 function addEmployee() {
   inquirer.prompt([
     {
