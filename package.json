@@ -4,10 +4,10 @@
   "description": "<h1 align=\"center\"> :file_folder: Employee-Management-System  :file_folder: </h1>",
   "main": "generator.js",
   "dependencies": {
+    "colors": "^1.4.0",
     "console.table": "^0.10.0",
     "inquirer": "^7.3.3",
     "mysql": "^2.18.1"
-   
   },
   "devDependencies": {},
   "scripts": {

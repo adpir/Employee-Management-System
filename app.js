@@ -1,64 +1,167 @@
-const inquirer = require("inquirer");
-const cTable = require("console.table");
-const fs = require("fs");
-const Department = require("./Assets/Department");
-const Role = require("./Assets/Role");
-const Employee = require("./Assets/Employee");
+ const inquirer = require("inquirer");
+  const cTable = require("console.table");
+ const fs = require("fs");
+ const connection= require ("./Assets/mysql.js")
 
-// console.table([])
-let employeeTracker = [];
-function tracker() {
+// const Department = require("./Assets/Department");
+// const Role = require("./Assets/Role");
+ const Employee = require("./Assets/Employee");
+
+// const colors =require("colors")
+const employeeTracker = [];
+function employeesGenerator() {
+  inquirer
+    .prompt({ 
+      name: "employees",
+      type: "list",
+      message: "What would you like to do?",
+      choices: [
+        "View All Employees",
+        "View All Departments",
+        "View All Employees By Department",
+        "View All Employees By Manager",
+        "View Budget Salary by Department",
+        "View Salary Of Employees",
+        "Add Employee",
+        "Remove Employee",
+        "Update Employee Role",
+        "Update Employee Manager",
+        "View All Roles",
+        "Add Roles",
+        "Remove Roles",
+        "Add Departments",
+        "Remove Departments",
+        "Exit",
+      ]
+    })
+    .then(function(response) {
+      switch (response.employees) {
+      case "View All Employees":
+        viewEmployee();
+        break;
+
+      case "View All Department":
+        viewDept();
+        break;
+
+      case "View All Eployees By Department":
+        viewEmpldept();
+        break;
+
+      case "View All Employees By Manager":
+        viewEmplmanager();
+        break;
+
+      case "View Budget Salary by Department":
+        salaryDept();
+        break;
+
+      case "View Salary Of Employees":
+        viewSalary();
+        break;
+
+      case "Add Employee":
+        addEmployee();
+        break;
+        
+      case "Remove Employee":
+        removeEmployee();
+        break;
+
+      case "Update Employee Role":
+        updateEmployee();
+        break;
+
+       case "Update Employee Manager":
+        updateEmplmanager();
+        break;
+
+      case "Add Roles":
+        addRoles();
+        break;
+
+      case "View All Roles":
+        viewRoles();
+        break;
+
+      case "Remove Roles":
+       removeRoles();
+       break;
+
+      case "Add Departments":
+        addDept();
+        break;
+
+      case "Remove Departments":
+        removeDept();
+        break;
+
+      case "Exit":
+        connection.end();
+        break;
+      }
+    });
+};
+
+function viewDept(){
+
+
+}
+
+function addEmployee() {
   inquirer.prompt([
     {
-      type: "list",
-      name: "adding",
-      question: "What would you like to do?",
-      choices: ["View All Employees, View All Eployees By Department, View All Employees By Manager, Add Employee, Remove Employee, Update Employee Role, Update Employee Manager"],
+      type: "input",
+      name:"first_name",
+      message:"What is the employee's first name?"
+    },
+
+    {
+      type: "input",
+      name:"last_name",
+      message:"What is the employee's last name?"
+    },
+    {
+      type: "input",
+      name:"role_id",
+      message:"What is the employee's role's id?"
+    },
+
+    {
+      type: "input",
+      name:"manager_id",
+      message:"What is the employee's manager's id?"
+    },
    
-    },
-    {
-      type: "input",
-      name: "department",
-      question: "What is the department name?",
-    },
-    {
-      type: "input",
-      name: "roles",
-      question: "What is the employer roles ?",
-    },
-    {
-      type: "input",
-      name: "employee",
-      question: "Do you want to add an employee?",
-    },
-    {
-      type: "list",
-      name: "view",
-      question: "What do you would like do?",
-      choices: [
-        "View all Departments,View all Employees, View all Roles, View employees by Manager",
-      ],
-    },
-    //   {
-    //     type: "input",
-    //     name: "department",
-    //     question: "Do you want to add a department?",
-    //   },
-    //   {
-    //     type: "input",
-    //     name: "roles",
-    //     question: "Do you want to add a new role?",
-    //   },
-    //   {
-    //     type: "input",
-    //     name: "employee",
-    //     question: "Do you want to add an employee?",
+])
+.then((response) => {
+  console.log(response);
+ connection.query (
+   "INSERT INTO employee SET ?",
+ {
+      first_name: response.firstName,
+      last_name: response.lastName,
+      role_id: response.roleId,
+      manager_id: response.managerId
+ },
+ function(err) {
+   if (err) {
+     console.log(err);
+     console.cTable(res);
+   }
+ }
 
-    //   },
-  ])
-  .then((response) => {
-    console.log(response);
+ );
+
+
+
+
+  
+
+  
+      
+
+     
 })};
-
-tracker();
-
+//    employeeTracker();
+// employeesGenerator();

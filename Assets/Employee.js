@@ -6,5 +6,7 @@ class Employee {
     this.role_id=role_id;
     this.manager_id=manager_id;
     }
-  
+  SavetoDatabase()
+
+
 }
