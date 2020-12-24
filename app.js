@@ -65,7 +65,7 @@ function employeesGenerator() {
         break;
 
       case "Update Employee Role":
-        updateEmployee();
+        updateRole();
         break;
 
        case "Update Employee Manager":
@@ -98,6 +98,40 @@ function employeesGenerator() {
       }
     });
 };
+
+function updateRole(){
+  inquirer.prompt([
+    {
+      type: "number",
+      name:"employee_id",
+      message:"What is the id number of the employee that you want to update?",
+    },
+    
+      {
+        type: "number",
+        name:"role_id",
+        message:"What is the role id number of the updated position?",
+    
+      },
+   
+  ])
+  .then((response) => {
+    const query = `UPDATE employee 
+    SET role_id = ${response.role_id}
+    WHERE employee.id = ${response.employee_id};`
+    console.log(response);
+   connection.query (query,
+   function(err,res) {
+     if (err) {
+       console.log(err);
+     }
+     console.table(res);
+     employeesGenerator();
+   }
+  
+  )
+  });
+}
 
 function viewDept(){
 connection.query("select * from department;", function(err, data ){
