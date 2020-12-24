@@ -1,5 +1,5 @@
  const inquirer = require("inquirer");
-  const cTable = require("console.table");
+  // const table = require("console.table");
  const fs = require("fs");
  const connection= require ("./Assets/mysql.js")
 // const colors =require("colors")
@@ -117,7 +117,19 @@ function viewRoles(){
   }
 
   function viewEmployee(){
-    connection.query("select * from employee;", function(err, data ){
+    const query = `SELECT 
+    employee.id,
+    employee.first_name,
+    employee.last_name,
+    roles.title,
+    department.departmentname,
+    roles.salary
+    FROM employee
+    INNER JOIN roles 
+    ON employee.role_id = roles.id
+    INNER JOIN department
+    ON roles.department_id= department.id;`
+    connection.query(query, function(err, data ){
       if (err) throw err;
       console.table(data);
       employeesGenerator();
