@@ -1,13 +1,20 @@
- const inquirer = require("inquirer");
-  // const table = require("console.table");
- const fs = require("fs");
- const connection= require ("./Assets/mysql.js")
+const inquirer = require("inquirer");
+// const table = require("console.table");
+const fs = require("fs");
+const logo = require('./node_modules/asciiart-logo');
+const config = require('./package.json');
+console.log(logo(config).render());
+const chalkAnimation = require('chalk-animation');
+const gradient = require('gradient-string');
+
+// console.log(gradient('cyan', 'pink')('Hello world!'));  
+const connection = require("./Assets/mysql.js");
 // const colors =require("colors")
 const employeeTracker = [];
 employeesGenerator();
 function employeesGenerator() {
   inquirer
-    .prompt({ 
+    .prompt({
       name: "employees",
       type: "list",
       message: "What would you like to do?",
@@ -28,130 +35,125 @@ function employeesGenerator() {
         "Add Departments",
         "Remove Departments",
         "Exit",
-      ]
+      ],
     })
-    .then(function(response) {
+    .then(function (response) {
       switch (response.employees) {
-      case "View All Employees":
-        viewEmployee();
-        break;
+        case "View All Employees":
+          viewEmployee();
+          break;
 
-      case "View All Departments":
-        viewDept();
-        break;
+        case "View All Departments":
+          viewDept();
+          break;
 
-      case "View All Employees By Department":
-        viewEmpldept();
-        break;
+        case "View All Employees By Department":
+          viewEmpldept();
+          break;
 
-      case "View All Employees By Manager":
-        viewEmplmanager();
-        break;
+        case "View All Employees By Manager":
+          viewEmplmanager();
+          break;
 
-      case "View Budget Salary by Department":
-        salaryDept();
-        break;
+        case "View Budget Salary by Department":
+          salaryDept();
+          break;
 
-      case "View Salary Of Employees":
-        viewSalary();
-        break;
+        case "View Salary Of Employees":
+          viewSalary();
+          break;
 
-      case "Add Employee":
-        addEmployee();
-        break;
-        
-      case "Remove Employee":
-        removeEmployee();
-        break;
+        case "Add Employee":
+          addEmployee();
+          break;
 
-      case "Update Employee Role":
-        updateRole();
-        break;
+        case "Remove Employee":
+          removeEmployee();
+          break;
 
-       case "Update Employee Manager":
-        updateEmplmanager();
-        break;
+        case "Update Employee Role":
+          updateRole();
+          break;
 
-      case "Add Roles":
-        addRoles();
-        break;
+        case "Update Employee Manager":
+          updateEmplmanager();
+          break;
 
-      case "View All Roles":
-        viewRoles();
-        break;
+        case "Add Roles":
+          addRoles();
+          break;
 
-      case "Remove Roles":
-       removeRoles();
-       break;
+        case "View All Roles":
+          viewRoles();
+          break;
 
-      case "Add Departments":
-        addDept();
-        break;
+        case "Remove Roles":
+          removeRoles();
+          break;
 
-      case "Remove Departments":
-        removeDept();
-        break;
+        case "Add Departments":
+          addDept();
+          break;
 
-      case "Exit":
-        connection.end();
-        break;
+        case "Remove Departments":
+          removeDept();
+          break;
+
+        case "Exit":
+          connection.end();
+          break;
       }
     });
-};
+}
 
-function updateRole(){
-  inquirer.prompt([
-    {
-      type: "number",
-      name:"employee_id",
-      message:"What is the id number of the employee that you want to update?",
-    },
-    
+function updateRole() {
+  inquirer
+    .prompt([
       {
         type: "number",
-        name:"role_id",
-        message:"What is the role id number of the updated position?",
-    
+        name: "employee_id",
+        message:
+          "What is the id number of the employee that you want to update?",
       },
-   
-  ])
-  .then((response) => {
-    const query = `UPDATE employee 
+
+      {
+        type: "number",
+        name: "role_id",
+        message: "What is the role id number of the updated position?",
+      },
+    ])
+    .then((response) => {
+      const query = `UPDATE employee 
     SET role_id = ${response.role_id}
-    WHERE employee.id = ${response.employee_id};`
-    console.log(response);
-   connection.query (query,
-   function(err,res) {
-     if (err) {
-       console.log(err);
-     }
-     console.table(res);
-     employeesGenerator();
-   }
-  
-  )
-  });
+    WHERE employee.id = ${response.employee_id};`;
+      console.log(response);
+      connection.query(query, function (err, res) {
+        if (err) {
+          console.log(err);
+        }
+        console.table(res);
+        employeesGenerator();
+      });
+    });
 }
 
-function viewDept(){
-connection.query("select * from department;", function(err, data ){
-  if (err) throw err;
-  console.table(data);
-  employeesGenerator();
-})
-
-}
-function viewRoles(){
-  connection.query("select * from roles;", function(err, data ){
+function viewDept() {
+  connection.query("select * from department;", function (err, data) {
     if (err) throw err;
     console.table(data);
     employeesGenerator();
-  })
-  
-  }
+  });
+}
+function viewRoles() {
+  connection.query("select * from roles;", function (err, data) {
+    if (err) throw err;
+    console.table(data);
+    employeesGenerator();
+  });
+}
 
-  function viewEmployee(){
-    const query = `SELECT 
+function viewEmployee() {
+  const query = `SELECT 
     employee.id,
     employee.first_name,
     employee.last_name,
@@ -162,127 +164,124 @@ function viewRoles(){
     INNER JOIN roles 
     ON employee.role_id = roles.id
     INNER JOIN department
-    ON roles.department_id= department.id;`
-    connection.query(query, function(err, data ){
-      if (err) throw err;
-      console.table(data);
-      employeesGenerator();
-    })
-    
-  }
-    function addDept(){
-      inquirer.prompt([
+    ON roles.department_id= department.id;`;
+  connection.query(query, function (err, data) {
+    if (err) throw err;
+    console.table(data);
+    employeesGenerator();
+  });
+}
+function addDept() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "departmentname",
+        message: "What is the departments's name?",
+      },
+    ])
+    .then((response) => {
+      console.log(response);
+      connection.query(
+        "INSERT INTO department SET ?",
         {
-          type: "input",
-          name:"departmentname",
-          message:"What is the departments's name?"
-        }
-      ])
-        .then((response) => {
-          console.log(response);
-         connection.query (
-           "INSERT INTO department SET ?",
-         {
-             departmentname:response.departmentname
-         },
-         function(err,res) {
-           if (err) {
-             console.log(err);
-           }
-           console.table(res);
-           employeesGenerator();
-         }
-        
-        )
-        });
-      }    
-      function addRoles(){
-        inquirer.prompt([
-          {
-            type: "input",
-            name:"title",
-            message:"What is the job's title?"
-          },
-          {
-            type: "input",
-            name:"salary",
-            message:"What is the employees annual salary"
-          },
-          {
-            type: "input",
-            name:"department_id",
-            message:"Please enter your Manager ID"
+          departmentname: response.departmentname,
+        },
+        function (err, res) {
+          if (err) {
+            console.log(err);
           }
-        ])
-          .then((response) => {
-            console.log(response);
-           connection.query (
-             "INSERT INTO roles SET ?",
-           {
-               title:response.title,
-               salary:response.salary,
-               department_id:response.department_id
-              
-           },
-           function(err,data) {
-             if (err) {
-               console.log(err);
-             }
-             console.table(data);
-             employeesGenerator();
-           }
-          
-          )
-          });
-        } 
-    
+          console.table(res);
+          employeesGenerator();
+        }
+      );
+    });
+}
+function addRoles() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the job's title?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the employees annual salary",
+      },
+      {
+        type: "input",
+        name: "department_id",
+        message: "Please enter your Manager ID",
+      },
+    ])
+    .then((response) => {
+      console.log(response);
+      connection.query(
+        "INSERT INTO roles SET ?",
+        {
+          title: response.title,
+          salary: response.salary,
+          department_id: response.department_id,
+        },
+        function (err, data) {
+          if (err) {
+            console.log(err);
+          }
+          console.table(data);
+          employeesGenerator();
+        }
+      );
+    });
+}
+
 function addEmployee() {
-  inquirer.prompt([
-    {
-      type: "input",
-      name:"first_name",
-      message:"What is the employee's first name?"
-    },
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "What is the employee's first name?",
+      },
 
-    {
-      type: "input",
-      name:"last_name",
-      message:"What is the employee's last name?"
-    },
-    {
-      type: "list",
-      choices:[ 2,4,5,6,7],
-      name:"role_id",
-      message:"What is the employee's role's id?"
-    },
+      {
+        type: "input",
+        name: "last_name",
+        message: "What is the employee's last name?",
+      },
+      {
+        type: "list",
+        choices: [2, 4, 5, 6, 7],
+        name: "role_id",
+        message: "What is the employee's role's id?",
+      },
 
-    {
-      type: "list",
-      name:"manager_id",
-      choices:[1,2,3],
-      message:"What is the employee's manager's id?"
-    },
-   
-])
-.then((response) => {
-  console.log(response);
- connection.query (
-   "INSERT INTO employee SET ?",
- {
-      first_name: response.first_name,
-      last_name: response.last_name,
-      role_id: response.role_id,
-      manager_id: response.manager_id
- },
- function(err,res) {
-   if (err) {
-     console.log(err);
-   }
-   console.table(res);
-   employeesGenerator();
- },
-
- )});
-
-     
-};
+      {
+        type: "list",
+        name: "manager_id",
+        choices: [1, 2, 3],
+        message: "What is the employee's manager's id?",
+      },
+    ])
+    .then((response) => {
+      console.log(response);
+      connection.query(
+        "INSERT INTO employee SET ?",
+        {
+          first_name: response.first_name,
+          last_name: response.last_name,
+          role_id: response.role_id,
+          manager_id: response.manager_id,
+        },
+        function (err, res) {
+          if (err) {
+            console.log(err);
+          }
+          console.table(res);
+          employeesGenerator();
+          chalkAnimation();
+        }
+      );
+    });
+}

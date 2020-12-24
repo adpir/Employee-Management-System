@@ -4,6 +4,8 @@
   "description": "<h1 align=\"center\"> :file_folder: Employee-Management-System  :file_folder: </h1>",
   "main": "generator.js",
   "dependencies": {
+    "asciiart-logo": "^0.2.6",
+    "chalk-animation": "^1.6.0",
     "colors": "^1.4.0",
     "console.table": "^0.10.0",
     "inquirer": "^7.3.3",
