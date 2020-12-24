@@ -1,5 +1,18 @@
+ # <img src = "Employee.png" widht="300">
+file_folder: Employee Management System :file_folder: 
 
- ### :file_folder: Employee Management System :file_folder: 
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![Language](https://img.shields.io/badge/Languages-HTML,CSS,Jquery,Nodes-violet.svg)
+![asciiart-logo](https://img.shields.io/badge/asciiart-logo-violet.svg)
+![Command-line](https://img.shields.io/badge/Command-line-blueviolet.svg)
+![Console-log](https://img.shields.io/badge/Console-log-turquoise.svg)
+![npm](https://img.shields.io/badge/npm-red.svg)
+![functions](https://img.shields.io/badge/functions-install-grey.svg)
+![node](https://img.shields.io/badge/node-green.svg)
+![inquirer](https://img.shields.io/badge/inquirer-yellow.svg)
+![MySQL](https://img.shields.io/badge/MySQL-orange.svg)
+![Query](https://img.shields.io/badge/Query-darkblue.svg)
+![VisualStudioCode](https://img.shields.io/badge/VSC-darkblue.svg)
 
  
 
@@ -31,7 +44,7 @@ You will need to perform a variety of ```SQL JOINS``` to complete this assignmen
 
 ###  Usage:
 
-
+``` node app.js```
 
 
 ### :wave: Contributing:
@@ -43,10 +56,10 @@ Please make sure to update tests as appropriate.
 
 ### :octocat: Profile:
 
-[GitHub] 
+[GitHub](https://github.com/adpir/Employee-Management-System)
 
 
 
 ### :copyright: License
 
-[MIT] All rights reserved.
+[MIT](https://github.com/adpir/Employee-Management-System/blob/main/LICENSE) All rights reserved.

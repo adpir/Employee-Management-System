@@ -4,6 +4,8 @@ const inquirer = require("inquirer");
 // const logo = require('./node_modules/asciiart-logo');
 // const config = require('./package.json');
 // console.log(logo(config).render());
+const c = require('ansi-colors');
+
 const logo = require('./node_modules/asciiart-logo')
 const config = require('./package.json');
 config.font = 'Jazmine';
@@ -24,10 +26,11 @@ console.log(logo(config).render());
 // console.log(chalkAnimation.rainbow)
 const gradient = require('gradient-string');
 
-// console.log(gradient('cyan', 'pink')('Hello world!'));  
+// console.log(gradient('cyan', 'pink')('Hello world!'));
 const connection = require("./Assets/mysql.js");
 // const colors =require("colors")
-const employeeTracker = [];
+// console.log(c.yellow(`foo ${c.red.bold('red')} bar ${c.cyan('cyan')} baz`));
+
 employeesGenerator();
 function employeesGenerator() {
   inquirer
@@ -119,6 +122,7 @@ function employeesGenerator() {
         case "Exit":
           connection.end();
           break;
+
       }
     });
 }
@@ -140,7 +144,7 @@ function updateRole() {
       },
     ])
     .then((response) => {
-      const query = `UPDATE employee 
+      const query = `UPDATE employee
     SET role_id = ${response.role_id}
     WHERE employee.id = ${response.employee_id};`;
       console.log(response);
@@ -170,7 +174,7 @@ function viewRoles() {
 }
 
 function viewEmployee() {
-  const query = `SELECT 
+  const query = `SELECT
     employee.id,
     employee.first_name,
     employee.last_name,
@@ -178,7 +182,7 @@ function viewEmployee() {
     department.departmentname,
     roles.salary
     FROM employee
-    INNER JOIN roles 
+    INNER JOIN roles
     ON employee.role_id = roles.id
     INNER JOIN department
     ON roles.department_id= department.id;`;
