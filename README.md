@@ -1,5 +1,4 @@
  # <img src = "Employee.png" widht="300">
-file_folder: Employee Management System :file_folder: 
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Language](https://img.shields.io/badge/Languages-HTML,CSS,Jquery,Nodes-violet.svg)
