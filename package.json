@@ -1,7 +1,7 @@
 {
   "name": "employee-management-system",
   "version": "1.0.0",
-  "description": "<h1 align=\"center\"> :file_folder: Employee-Management-System  :file_folder: </h1>",
+  "description": "",
   "main": "generator.js",
   "dependencies": {
     "asciiart-logo": "^0.2.6",

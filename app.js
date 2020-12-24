@@ -1,10 +1,27 @@
 const inquirer = require("inquirer");
 // const table = require("console.table");
-const fs = require("fs");
-const logo = require('./node_modules/asciiart-logo');
+// const fs = require("fs");
+// const logo = require('./node_modules/asciiart-logo');
+// const config = require('./package.json');
+// console.log(logo(config).render());
+const logo = require('./node_modules/asciiart-logo')
 const config = require('./package.json');
+config.font = 'Jazmine';
+config.logoColor = 'bold-magenta';
+config.textColor = 'cyan';
+config.lineChars= 3,
+config.padding= 2,
+config .margin= 3,
+config.widht=100,
+config.center='center',
+// config.chalkAnimation='chalk-animation';
+config.borderColor = 'cyan';
 console.log(logo(config).render());
-const chalkAnimation = require('chalk-animation');
+
+
+
+// const chalkAnimation = require('chalk-animation');
+// console.log(chalkAnimation.rainbow)
 const gradient = require('gradient-string');
 
 // console.log(gradient('cyan', 'pink')('Hello world!'));  
@@ -280,7 +297,7 @@ function addEmployee() {
           }
           console.table(res);
           employeesGenerator();
-          chalkAnimation();
+          // chalkAnimation();
         }
       );
     });
