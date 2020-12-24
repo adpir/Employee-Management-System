@@ -116,14 +116,80 @@ function viewRoles(){
   
   }
 
-  function  viewEmployee(){
+  function viewEmployee(){
     connection.query("select * from employee;", function(err, data ){
       if (err) throw err;
       console.table(data);
       employeesGenerator();
     })
     
-    }
+  }
+    function addDept(){
+      inquirer.prompt([
+        {
+          type: "input",
+          name:"departmentname",
+          message:"What is the departments's name?"
+        }
+      ])
+        .then((response) => {
+          console.log(response);
+         connection.query (
+           "INSERT INTO department SET ?",
+         {
+             departmentname:response.departmentname
+         },
+         function(err,res) {
+           if (err) {
+             console.log(err);
+           }
+           console.table(res);
+           employeesGenerator();
+         }
+        
+        )
+        });
+      }    
+      function addRoles(){
+        inquirer.prompt([
+          {
+            type: "input",
+            name:"title",
+            message:"What is the job's title?"
+          },
+          {
+            type: "input",
+            name:"salary",
+            message:"What is the employees annual salary"
+          },
+          {
+            type: "input",
+            name:"department_id",
+            message:"Please enter your Manager ID"
+          }
+        ])
+          .then((response) => {
+            console.log(response);
+           connection.query (
+             "INSERT INTO roles SET ?",
+           {
+               title:response.title,
+               salary:response.salary,
+               department_id:response.department_id
+              
+           },
+           function(err,data) {
+             if (err) {
+               console.log(err);
+             }
+             console.table(data);
+             employeesGenerator();
+           }
+          
+          )
+          });
+        } 
+    
 function addEmployee() {
   inquirer.prompt([
     {
@@ -147,9 +213,9 @@ function addEmployee() {
     {
       type: "list",
       name:"manager_id",
-      choices:[1,3],
+      choices:[1,2,3],
       message:"What is the employee's manager's id?"
-    }
+    },
    
 ])
 .then((response) => {
@@ -168,19 +234,9 @@ function addEmployee() {
    }
    console.table(res);
    employeesGenerator();
- }
+ },
 
- );
-
-
-
-
-  
-
-  
-      
+ )});
 
      
-})};
-//    employeeTracker();
-// employeesGenerator();
+};
