@@ -48,8 +48,9 @@ INSERT INTO employee ( first_name, last_name, role_id)
 VALUES ("Jay", "Borden",6);
 INSERT INTO employee ( first_name, last_name, role_id)
 VALUES ("Alice", "Piar",7);
-SELECT* FROM employee;
 
+
+SELECT * FROM employee;
 
 INSERT INTO employee ( first_name, last_name, role_id,manager_id)
 VALUES ("Xiomara", "Rex",1,1);
@@ -57,18 +58,34 @@ INSERT INTO employee ( first_name, last_name, role_id,manager_id)
 VALUES ("Anna", "Light",2,2);
 INSERT INTO employee ( first_name, last_name, role_id,manager_id)
 VALUES ("Julie", "Saas",3,3);
+INSERT INTO employee ( first_name, last_name, role_id,manager_id)
+VALUES ("Joshua", "Lolo",4,4);
+INSERT INTO employee ( first_name, last_name, role_id,manager_id)
+VALUES ("Dunes", "Star",5,5);
+INSERT INTO employee ( first_name, last_name, role_id,manager_id)
+VALUES ("Jasmine", "Radiance",6,6);
+INSERT INTO employee ( first_name, last_name, role_id,manager_id)
+VALUES ("Luz", "Blue",7,7);
 
-DELETE FROM employee where id > 10;
+UPDATE employee
+SET first_name = 'Xiomara',last_name ='Rex'
+WHERE manager_id = 1;
+
+SELECT * FROM employee WHERE first_name= "whatever";
 
 
-SELECT* FROM employee;
-SELECT 
-employee.first_name,
-employee.last_name,
-employee.role_id,
-employee.manager_id,
-roles.title
-FROM employee
-JOIN roles 
-ON employee.role_id = roles.title;
+
+UPDATE employee 
+SET role_id = 2
+WHERE employee.id = 15;
+
+
+
+SELECT * FROM employee 
+INNER JOIN roles
+ON roles.id = role_id;
+
+
+
+
 

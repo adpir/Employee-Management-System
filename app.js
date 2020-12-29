@@ -1,36 +1,29 @@
-const inquirer = require("inquirer");
 // const table = require("console.table");
 // const fs = require("fs");
 // const logo = require('./node_modules/asciiart-logo');
 // const config = require('./package.json');
 // console.log(logo(config).render());
-const c = require('ansi-colors');
-
-const logo = require('./node_modules/asciiart-logo')
-const config = require('./package.json');
-config.font = 'Jazmine';
-config.logoColor = 'bold-magenta';
-config.textColor = 'cyan';
-config.lineChars= 3,
-config.padding= 2,
-config .margin= 3,
-config.widht=100,
-config.center='center',
-// config.chalkAnimation='chalk-animation';
-config.borderColor = 'cyan';
-console.log(logo(config).render());
-
-
-
-// const chalkAnimation = require('chalk-animation');
-// console.log(chalkAnimation.rainbow)
-const gradient = require('gradient-string');
+// // console.log(chalkAnimation.rainbow)
+// const gradient = require('gradient-string');
 
 // console.log(gradient('cyan', 'pink')('Hello world!'));
-const connection = require("./Assets/mysql.js");
 // const colors =require("colors")
 // console.log(c.yellow(`foo ${c.red.bold('red')} bar ${c.cyan('cyan')} baz`));
+// const c = require('ansi-colors');
 
+const inquirer = require("inquirer");
+const chalkAnimation = require("chalk-animation");
+const connection = require("./Assets/mysql.js");
+const logo = require("./node_modules/asciiart-logo");
+const config = require("./package.json");
+config.font = "Jazmine";
+config.logoColor = "bold-magenta";
+config.textColor = "cyan";
+(config.lineChars = 3),
+  (config.padding = 2),
+  (config.margin = 3),
+  (config.borderColor = "cyan");
+console.log(logo(config).render());
 employeesGenerator();
 function employeesGenerator() {
   inquirer
@@ -57,6 +50,7 @@ function employeesGenerator() {
         "Exit",
       ],
     })
+
     .then(function (response) {
       switch (response.employees) {
         case "View All Employees":
@@ -96,7 +90,7 @@ function employeesGenerator() {
           break;
 
         case "Update Employee Manager":
-          updateEmplmanager();
+          updatemanager();
           break;
 
         case "Add Roles":
@@ -122,7 +116,6 @@ function employeesGenerator() {
         case "Exit":
           connection.end();
           break;
-
       }
     });
 }
@@ -155,6 +148,41 @@ function updateRole() {
         console.table(res);
         employeesGenerator();
       });
+    });
+}
+
+function updatemanager() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "Which employee's manager do you want to update?",
+      },
+
+      {
+        type: "input",
+        name: "employee",
+        message:
+          "Which employee do you want to set as a manager for the selected employee?",
+      },
+    ])
+    .then((response) => {
+      console.log(response);
+      connection.query(
+        "SELECT * FROM employee;",
+        {
+          first_name: response.first_name,
+          employee:response.employee,
+        },
+        function (err, res) {
+          if (err) {
+            console.log(err);
+          }
+          console.table(res);
+          employeesGenerator();
+        }
+      );
     });
 }
 
@@ -301,7 +329,6 @@ function addEmployee() {
           }
           console.table(res);
           employeesGenerator();
-          // chalkAnimation();
         }
       );
     });

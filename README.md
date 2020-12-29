@@ -1,5 +1,6 @@
  # <img src = "Employee.png" widht="300">
 
+
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Language](https://img.shields.io/badge/Languages-HTML,CSS,Jquery,Nodes-violet.svg)
 ![asciiart-logo](https://img.shields.io/badge/asciiart-logo-violet.svg)
@@ -24,6 +25,8 @@ Developers are often tasked with creating interfaces that make it easy for non-d
 
 
 ### :camera: Visuals:
+![Giphy](./Assets/code.gif)<br>
+![Images]()
 
 
 
@@ -61,4 +64,5 @@ Please make sure to update tests as appropriate.
 
 ### :copyright: License
 
-[MIT](https://github.com/adpir/Employee-Management-System/blob/main/LICENSE) All rights reserved.
+![MIT](./Assets/License.png)<br>
+(https://github.com/adpir/Employee-Management-System/blob/main/LICENSE) All rights reserved.
