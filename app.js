@@ -151,40 +151,39 @@ function updateRole() {
     });
 }
 
-function updatemanager() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "first_name",
-        message: "Which employee's manager do you want to update?",
-      },
+ function updatemanager() {
+   inquirer
+     .prompt([
+       {
+         type: "input",
+         name: "employee_id",
+         message: "Which employee's id you want to update?",
+       },
 
-      {
-        type: "input",
-        name: "employee",
-        message:
-          "Which employee do you want to set as a manager for the selected employee?",
-      },
-    ])
-    .then((response) => {
-      console.log(response);
-      connection.query(
-        "SELECT * FROM employee;",
-        {
-          first_name: response.first_name,
-          employee:response.employee,
-        },
-        function (err, res) {
-          if (err) {
-            console.log(err);
-          }
-          console.table(res);
-          employeesGenerator();
-        }
-      );
-    });
-}
+       {
+         type: "list",
+         name: "manager_id",
+         choices:[{name:"Alex Lopez",value:19},{name:"Karl Green",value:20},{name:"Jo flower",value:21},{name:"Sunny loves",value:22},{name:"World lives",value:23}],
+         message:
+           "Choose a new manager?",
+       },
+     ])
+     .then((response) => {
+       console.log(response);
+       connection.query(
+         `UPDATE employee SET  manager_id = ?  WHERE employee.id = ? ;`,
+         [response.employee_id,response.manager_id],
+         function (err, res) {
+           if (err) {
+             console.log(err);
+           }
+           console.table(res);
+           employeesGenerator();
+         }
+       );
+     });
+ }
+
 
 function viewDept() {
   connection.query("select * from department;", function (err, data) {

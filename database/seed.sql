@@ -51,9 +51,6 @@ VALUES ("Alice", "Piar",7);
 
 
 SELECT * FROM employee;
-delete from employee where id > 11;
-
-
 
 INSERT INTO employee ( first_name, last_name, role_id,manager_id)
 VALUES ("Xiomara", "Rex",1,1);
@@ -70,13 +67,13 @@ VALUES ("Jasmine", "Radiance",6,6);
 INSERT INTO employee ( first_name, last_name, role_id,manager_id)
 VALUES ("Luz", "Blue",7,7);
 
-SELECT first_name, last_name 
-FROM employee 
-WHERE (employee.id) IN (SELECT manager_id FROM employee);
+UPDATE employee
+SET first_name = 'Xiomara',last_name ='Rex'
+WHERE manager_id = 1;
 
-SELECT * FROM employee
-INNER JOIN employee
-ON manager.id =manager_id;
+SELECT * FROM employee WHERE first_name= "whatever";
+
+
 
 UPDATE employee 
 SET role_id = 2
