@@ -183,7 +183,15 @@ function updateRole() {
        );
      });
  }
-
+ function  viewEmplmanager() {
+  const query = `select a.id,a.first_name,a.last_name, concat(b.first_name ,",",b.last_name) "Manager" from employee a, employee b where a.manager_id = b.id;
+  `;
+  connection.query(query, function (err, data) {
+    if (err) throw err;
+    console.table(data);
+    employeesGenerator();
+  });
+}
 
 function viewDept() {
   connection.query("select * from department;", function (err, data) {
