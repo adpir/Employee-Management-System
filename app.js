@@ -155,9 +155,10 @@ function updateRole() {
    inquirer
      .prompt([
        {
-         type: "input",
+         type: "list",
          name: "employee_id",
-         message: "Which employee's id you want to update?",
+         choices: [{name:"Alex Drews", value:5}, {name:"Cathia Lopez",value:4},{name:"Jay Borden", value:6}],
+         message: "Which employee's you want to update?",
        },
 
        {
@@ -184,7 +185,17 @@ function updateRole() {
      });
  }
  function  viewEmplmanager() {
-  const query = `select a.id,a.first_name,a.last_name, concat(b.first_name ,",",b.last_name) "Manager" from employee a, employee b where a.manager_id = b.id;
+  const query = `select a.id,a.first_name,a.last_name, concat(b.first_name ," ",b.last_name) "Manager" from employee a, employee b where a.manager_id = b.id;
+  `;
+  connection.query(query, function (err, data) {
+    if (err) throw err;
+    console.table(data);
+    employeesGenerator();
+  });
+}
+function viewEmpldept(){
+  const query = `select e.id,e.first_name,e.last_name,d.departmentname from employee e, roles r, department d where
+  e.role_id = r.id and r.department_id = d.id;
   `;
   connection.query(query, function (err, data) {
     if (err) throw err;
@@ -254,6 +265,13 @@ function addDept() {
     });
 }
 function addRoles() {
+  let query= `SELECT * FROM department 
+LEFT JOIN roles
+ON department.id = department_id;`;
+connection.query(query,(err, data)=> {
+  if (err) throw err;
+  console.table(data);
+});
   inquirer
     .prompt([
       {
@@ -269,7 +287,7 @@ function addRoles() {
       {
         type: "input",
         name: "department_id",
-        message: "Please enter your Manager ID",
+        message: "Please enter the department ID",
       },
     ])
     .then((response) => {
@@ -317,6 +335,7 @@ function addEmployee() {
         type: "list",
         name: "manager_id",
         choices: [1, 2, 3],
+
         message: "What is the employee's manager's id?",
       },
     ])
