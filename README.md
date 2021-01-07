@@ -45,6 +45,15 @@ You may wish to have a separate file containing functions for performing specifi
 
 You will need to perform a variety of ```SQL JOINS``` to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this.
 
+- Terminal
+- Visual Studio Code
+- Git Lab
+- GitHub
+- MySQL Database
+- npm init
+- npm install
+- npm asciiart
+
 ###  Usage:
 
 ``` node app.js```
@@ -59,7 +68,10 @@ Please make sure to update tests as appropriate.
 
 ### :octocat: Profile:
 
-[GitHub](https://github.com/adpir/Employee-Management-System)
+[GitHub](https://github.com/adpir/Employee-Management-System)<br>
+[Video](https://drive.google.com/file/d/1HA0XkdmOKTPN7lpp2NEzxtvUvHd1yGiC/view?usp=sharing)<br>
+
+
 
 
 

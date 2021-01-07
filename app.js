@@ -149,21 +149,22 @@ function updatemanager() {
   inquirer
     .prompt([
       {
-        type: "list",
+        type: "input",
         name: "employee_id",
-        choices: [
-          { name: "Happy Year", value: 8 },
-          { name: "Estrella Shine", value: 9 },
-          { name: "Ana Light", value: 10 },
-          { name: "Julie Saas", value: 11 },
-          { name: "Joshua Lolo", value: 12 },
-          { name: "Dunes Star", value: 13 },
-          { name: "Jasmine Radiance", value: 14 },
-          { name: "Luz Blue", value: 15 },
-          { name: "Jil Kuyh", value: 16 },
-          { name: "Lola Roar", value: 17 },
-        ],
-        message: "Which employee's you want to update?",
+        // choices: [
+        //   { name: "Happy Year", value: 8 },
+        //   { name: "Estrella Shine", value: 9 },
+        //   { name: "Ana Light", value: 10 },
+        //   { name: "Julie Saas", value: 11 },
+        //   { name: "Joshua Lolo", value: 12 },
+        //   { name: "Dunes Star", value: 13 },
+        //   { name: "Jasmine Radiance", value: 14 },
+        //   { name: "Luz Blue", value: 15 },
+        //   { name: "Jil Kuyh", value: 16 },
+        //   { name: "Lola Roar", value: 17 },
+        //   { name: "None", value: null },
+        // ],
+        message: "Which employee's ID you want to update?",
       },
 
       {
@@ -177,6 +178,7 @@ function updatemanager() {
           { name: "Sunny Shine", value: 5 },
           { name: "Jay Borden", value: 6 },
           { name: "Alice Piar", value: 7 },
+         
         ],
         message: "Choose a new manager?",
       },
@@ -424,21 +426,40 @@ function addEmployee() {
         message: "What is the employee's last name?",
       },
       {
-        type: "list",
+        type: "input",
         name: "role_id",
         message: "What is the employee's role's ID?",
-        choices: [5, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18],
+
+      },
+
+      {
+        type: "list",
+        name: "ManagerId",
+        choices: [
+          { name: "Alexandra Drews", value: 1 },
+          { name: "Carlos Rodriguez", value: 2 },
+          { name: "Carmen Borges", value: 3 },
+          { name: "Cathia Piar", value: 4 },
+          { name: "Sunny Shine", value: 5 },
+          { name: "Jay Borden", value: 6 },
+          { name: "Alice Piar", value: 7 },
+          { name: "None", value: null },
+        ],
+        message: "What Manager Id?",
       },
       {
         type: "number",
-        name: "Manager_Id",
+        name: "ManId",
         message:
-          "Is the employee has a manager in charge, if they do what is the manager ID?",
+          "What is the Manager ID?",
         when: (response) => {
           return response.manager === "NO";
+
         },
       },
+
     ])
+
 
     .then((response) => {
       console.log(response);
@@ -448,17 +469,24 @@ function addEmployee() {
           first_name: response.first_name,
           last_name: response.last_name,
           role_id: response.role_id,
-          manager_id: response.Manager_ID,
-        },
+          manager_id: response.ManagerId,
 
+        },
         function (err) {
           if (err) {
             console.log(err);
-            
+            employeesGenerator();
           } else {
             connection.query(
-              ` SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
-            role_id as 'Role #ID', manager_id as 'Manager' from employee;`,
+              `SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
+              roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary',
+                department_id AS 'Dept ID#', department.departmentname  AS 'Department',
+                CONCAT(e.first_name, ' ', e.last_name) AS 'Manager'
+                FROM roles
+                LEFT JOIN employee ON employee.role_id = roles.id
+                INNER JOIN department ON department.id = roles.department_id
+                LEFT JOIN employee e ON employee.manager_id = e.id
+                WHERE employee.id IS NOT NULL;`,
               (err, res) => {
                 if (err) throw err;
                 console.log(err);
@@ -505,12 +533,12 @@ function removeEmployee() {
         if (err) throw err;
         connection.query(
           `SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
-              roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary', 
+              roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary',
                 department_id AS 'Dept ID#', department.departmentname  AS 'Department',
-                CONCAT(e.first_name, ' ', e.last_name) AS 'Manager' 
+                CONCAT(e.first_name, ' ', e.last_name) AS 'Manager'
                 FROM roles
-                LEFT JOIN employee ON employee.role_id = roles.id 
-                INNER JOIN department ON department.id = roles.department_id 
+                LEFT JOIN employee ON employee.role_id = roles.id
+                INNER JOIN department ON department.id = roles.department_id
                 LEFT JOIN employee e ON employee.manager_id = e.id
                 WHERE employee.id IS NOT NULL;
                 ;`,
@@ -520,7 +548,7 @@ function removeEmployee() {
             console.table(data);
             console.log(
               gradient.rainbow(
-                "*---------------------------------------------Employee has been remove, table updated--------------------------------------------------------------------------*"
+                "*---------------------------------------------Employee has been remove, table updated-------------------------------------*"
               )
             );
 
