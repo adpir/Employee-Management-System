@@ -1,9 +1,6 @@
 const cTable = require("console.table");
 const gradient = require("gradient-string");
-// const c = require('ansi-colors');
-
 const inquirer = require("inquirer");
-const chalkAnimation = require("chalk-animation");
 const connection = require("./Assets/mysql.js");
 const logo = require("./node_modules/asciiart-logo");
 const config = require("./package.json");
@@ -15,7 +12,6 @@ config.textColor = "cyan";
   (config.margin = 3),
   (config.borderColor = "cyan");
 console.log(logo(config).render());
-
 employeesGenerator();
 
 function employeesGenerator() {
@@ -112,7 +108,21 @@ function employeesGenerator() {
       }
     });
 }
-
+function removeEmployee() {
+  console.log(
+    gradient.rainbow(
+      "*---------------------------------------------------------Delete From Employee ----------------------------------------------------------*"
+    )
+  );
+  connection.query(
+    `DELETE FROM employee WHERE last_name = ? ;`,
+    function (err, data) {
+      if (err) throw err;
+      console.table(data);
+      employeesGenerator();
+    }
+  );
+}
 function updateRole() {
   inquirer
     .prompt([
@@ -140,10 +150,7 @@ function updateRole() {
         }
         console.table(res);
         console.log(
-          gradient(
-            "cyan",
-            "magenta"
-          )(
+          gradient.rainbow(
             "*---------------------------------------------------------Update Role --------------------------------------------------------*"
           )
         );
@@ -199,10 +206,7 @@ function updatemanager() {
           }
           console.table(res);
           console.log(
-            gradient(
-              "cyan",
-              "magenta"
-            )(
+            gradient.rainbow(
               "*---------------------------------------------------------Update Manager ---------------------------------------------------*"
             )
           );
@@ -213,11 +217,8 @@ function updatemanager() {
 }
 function viewEmplmanager() {
   console.log(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
-      "*---------------------------------------------------------View Employee Manager ----------------------------------------------------*"
+    gradient.rainbow(
+      "*---------------------------------------------------------View Employee Manager ---------------------------------------------------*"
     )
   );
 
@@ -231,11 +232,8 @@ function viewEmplmanager() {
 }
 function viewEmpldept() {
   console.log(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
-      "*------------------------------------------------------------View Employee Department-----------------------------------------------*"
+    gradient.rainbow(
+      "*---------------------------------------------------------View Employee Department -------------------------------------------------*"
     )
   );
 
@@ -251,11 +249,8 @@ function viewEmpldept() {
 
 function viewDept() {
   console.log(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
-      "*---------------------------------------------------------View Departments----------------------------------------------------------*"
+    gradient.rainbow(
+      "*---------------------------------------------------------View Department ----------------------------------------------------------*"
     )
   );
 
@@ -272,12 +267,9 @@ function viewDept() {
   );
 }
 function viewRoles() {
-  console.table(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
-      "*-------------------------------------------------View All Roles--------------------------------------------------------------------*"
+  console.log(
+    gradient.rainbow(
+      "*---------------------------------------------------------View Roles ---------------------------------------------------------------*"
     )
   );
 
@@ -314,27 +306,20 @@ function viewEmployee() {
   connection.query(query, function (err, data) {
     if (err) throw err;
 
-    console.table(
-      gradient(
-        "cyan",
-        "magenta"
-      )(
-        "*-------------------------------------------------Table: View All Employees-------------------------------------------------------*"
+    console.log(
+      gradient.rainbow(
+        "*---------------------------------------------------------View All Employees -----------------------------------------------------*"
       )
     );
     console.table(data);
-
 
     employeesGenerator();
   });
 }
 function addDept() {
-  console.table(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
-      "*---------------------------------------------------------Add Departments-----------------------------------------------------------*"
+  console.log(
+    gradient.rainbow(
+      "*---------------------------------------------------------Add Departments ----------------------------------------------------------*"
     )
   );
 
@@ -365,11 +350,8 @@ function addDept() {
     });
 }
 function addRoles() {
-  console.table(
-    gradient(
-      "cyan",
-      "magenta"
-    )(
+  console.log(
+    gradient.rainbow(
       "*---------------------------------------------------------Add Roles-----------------------------------------------------------------*"
     )
   );
@@ -416,11 +398,8 @@ function addRoles() {
               if (err) throw err;
               console.log(err);
               console.table(data);
-              console.table(
-                gradient(
-                  "cyan",
-                  "magenta"
-                )(
+              console.log(
+                gradient.rainbow(
                   "*-----------------------------------------------------------------------------------------------------------------------*"
                 )
               );
@@ -434,8 +413,19 @@ function addRoles() {
 }
 
 function addEmployee() {
+  console.log(
+    gradient.rainbow(
+      "*---------------------------------------------------------Add Employee-----------------------------------------------------------------*"
+    )
+  );
   inquirer
     .prompt([
+      {
+        type: "list",
+        name: "manager",
+        message: "Is the employee has a manager in charge?",
+        choices: ["Yes", "No"],
+      },
       {
         type: "input",
         name: "first_name",
@@ -451,43 +441,28 @@ function addEmployee() {
         type: "list",
         name: "role_id",
         message: "What is the employee's role's ID?",
-        choices: [5, 8, 9, 10, 11, 12, 13, 14, 15, 17],
+        choices: [5, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18],
       },
-
       {
+        type: "number",
+        name: "manager_available",
+        message:
+          "Is the employee has a manager in charge, if they do what is the Id?",
+        when: (response) => {
+          return response.manager === "NO";
+        },
+      },
+       {
         type: "list",
         name: "manager_id",
-        message: "What is the employee's manager's ID?",
-        choices: [1, 2, 3, 4, 5, 6, 7],
-      },
-    ])
+         message: "What is the employee's manager's ID?",
+        choices: [1, 2, 3, 4, 5, 6, 7,],
+
+     },
+   ])
 
     .then((response) => {
-      const query = `SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
-	roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary',
-    department_id AS 'Dept ID#', department.departmentname  AS 'Department',
-    CONCAT(e.first_name, ' ', e.last_name) AS 'Manager'
-    FROM roles
-    LEFT JOIN employee ON employee.role_id = roles.id
-    INNER JOIN department ON department.id = roles.department_id
-    LEFT JOIN employee e ON employee.manager_id = e.id
-    WHERE employee.id IS NOT NULL;`;
-      connection.query(query, function (err, data) {
-        if (err) throw err;
-
-        console.table(data);
-
-        console.table(
-          gradient(
-            "cyan",
-            "magenta"
-          )(
-            "*-----------------------------------------------Table Add Employee -----------------------------------------------------------*"
-          )
-        );
-
-       
-      });
+      console.log(response);
       connection.query(
         "INSERT INTO employee SET ?",
         {
@@ -496,21 +471,37 @@ function addEmployee() {
           role_id: response.role_id,
           manager_id: response.manager_id,
         },
-        function (err, data) {
+
+        function (err, res) {
           if (err) {
             console.log(err);
-          }
-          console.table(data);
-          console.log(
-            gradient(
-              "cyan",
-              "magenta"
-            )(
-              "*----------------------------------------------------------------------------------------------------------------------------*"
-            )
-          );
-        }
-      );
-      employeesGenerator();
-    });
+            console.table(res);
+            employeesGenerator();
+          } 
+          connection.query(
+              ` SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
+              roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary', 
+                department_id AS 'Dept ID#', department.departmentname  AS 'Department',
+                CONCAT(e.first_name, ' ', e.last_name) AS 'Manager' 
+                FROM roles
+                LEFT JOIN employee ON employee.role_id = roles.id 
+                INNER JOIN department ON department.id = roles.department_id 
+                LEFT JOIN employee e ON employee.manager_id = e.id
+                WHERE employee.id IS NOT NULL;`,
+                (err, data) => {
+                                 if (err) throw err;
+                               console.log(err);
+                               console.table(data);
+                                 console.log(
+                                   gradient.rainbow(
+                                     "*-----------------------------------------------------------------------------------------------------------------------*"
+                                   )
+                                 );
+                  
+                                 employeesGenerator();
+                               }
+                             );
+                          }
+                        );
+                       });
 }

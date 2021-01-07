@@ -2,8 +2,9 @@
 
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
-![Language](https://img.shields.io/badge/Languages-HTML,CSS,Jquery,Nodes-violet.svg)
+![Language](https://img.shields.io/badge/Languages-HTML,CSS,Jquery,Nodes-cyan.svg)
 ![asciiart-logo](https://img.shields.io/badge/asciiart-logo-violet.svg)
+![gradient](https://img.shields.io/badge/gradient-magenta.svg)
 ![Command-line](https://img.shields.io/badge/Command-line-blueviolet.svg)
 ![Console-log](https://img.shields.io/badge/Console-log-turquoise.svg)
 ![npm](https://img.shields.io/badge/npm-red.svg)
@@ -26,7 +27,7 @@ Developers are often tasked with creating interfaces that make it easy for non-d
 
 ### :camera: Visuals:
 ![Giphy](./Assets/code.gif)<br>
-![Images]()
+![Images](./Assets/viewAllemploy_t.png)
 
 
 
@@ -65,4 +66,4 @@ Please make sure to update tests as appropriate.
 ### :copyright: License
 
 ![MIT](./Assets/License.png)<br>
-(https://github.com/adpir/Employee-Management-System/blob/main/LICENSE) All rights reserved.
+[License](https://github.com/adpir/Employee-Management-System/blob/main/LICENSE) All rights reserved.
