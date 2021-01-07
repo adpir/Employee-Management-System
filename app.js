@@ -108,21 +108,7 @@ function employeesGenerator() {
       }
     });
 }
-function removeEmployee() {
-  console.log(
-    gradient.rainbow(
-      "*---------------------------------------------------------Delete From Employee ----------------------------------------------------------*"
-    )
-  );
-  connection.query(
-    `DELETE FROM employee WHERE last_name = ? ;`,
-    function (err, data) {
-      if (err) throw err;
-      console.table(data);
-      employeesGenerator();
-    }
-  );
-}
+
 function updateRole() {
   inquirer
     .prompt([
@@ -222,7 +208,7 @@ function viewEmplmanager() {
     )
   );
 
-  const query = `select a.id,a.first_name,a.last_name, concat(b.first_name ," ",b.last_name) "Manager" from employee a, employee b where a.manager_id = b.id;
+  const query = `select a.id as '#ID',a.first_name as "First Name",a.last_name as "Last Name", concat(b.first_name,' ',b.last_name) As "Manager" from employee a, employee b where a.manager_id = b.id;
   `;
   connection.query(query, function (err, data) {
     if (err) throw err;
@@ -237,7 +223,7 @@ function viewEmpldept() {
     )
   );
 
-  const query = `SELECT e.id as '#ID', CONCAT_WS(' ', e.first_name,e.last_name) AS Employers,  d.departmentname as 'Departments' from employee e, roles r, department d where
+  const query = `SELECT e.id as '#ID', CONCAT(e.first_name,' ',e.last_name) AS Employee,  d.departmentname as 'Departments' from employee e, roles r, department d where
   e.role_id = r.id and r.department_id = d.id;
   `;
   connection.query(query, function (err, data) {
@@ -415,7 +401,7 @@ function addRoles() {
 function addEmployee() {
   console.log(
     gradient.rainbow(
-      "*---------------------------------------------------------Add Employee-----------------------------------------------------------------*"
+      "*---------------------------------------------------------Add Employee--------------------------------------------------------------*"
     )
   );
   inquirer
@@ -445,21 +431,14 @@ function addEmployee() {
       },
       {
         type: "number",
-        name: "manager_available",
+        name: "Manager_Id",
         message:
-          "Is the employee has a manager in charge, if they do what is the Id?",
+          "Is the employee has a manager in charge, if they do what is the manager ID?",
         when: (response) => {
           return response.manager === "NO";
         },
       },
-       {
-        type: "list",
-        name: "manager_id",
-         message: "What is the employee's manager's ID?",
-        choices: [1, 2, 3, 4, 5, 6, 7,],
-
-     },
-   ])
+    ])
 
     .then((response) => {
       console.log(response);
@@ -469,17 +448,63 @@ function addEmployee() {
           first_name: response.first_name,
           last_name: response.last_name,
           role_id: response.role_id,
-          manager_id: response.manager_id,
+          manager_id: response.Manager_ID,
         },
 
-        function (err, res) {
+        function (err) {
           if (err) {
             console.log(err);
-            console.table(res);
-            employeesGenerator();
-          } 
-          connection.query(
+            
+          } else {
+            connection.query(
               ` SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
+            role_id as 'Role #ID', manager_id as 'Manager' from employee;`,
+              (err, res) => {
+                if (err) throw err;
+                console.log(err);
+                console.table(res);
+                console.log(
+                  gradient.rainbow(
+                    "*--------------------------------------------------------------------------------------------------------------------*"
+                  )
+                );
+
+                employeesGenerator();
+              }
+            );
+          }
+        }
+      );
+    });
+}
+function removeEmployee() {
+  console.log(
+    gradient.rainbow(
+      "*---------------------------------------------------------Remove Employees -----------------------------------------------------*"
+    )
+  );
+  connection.query(
+    ` SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
+    role_id as 'Role #ID', manager_id as 'Manager' from employee;`,
+    (err, res) => {
+      if (err) throw err;
+      console.table(res);
+    }
+  );
+  inquirer
+    .prompt([
+      {
+        type: "number",
+        name: "remove_id",
+        message: "Which employee ID you want to remove?",
+      },
+    ])
+    .then((response) => {
+      const query = `DELETE FROM employee WHERE employee.id = ${response.remove_id};`;
+      connection.query(query, (err) => {
+        if (err) throw err;
+        connection.query(
+          `SELECT employee.id AS 'ID#', CONCAT(employee.first_name, " ", employee.last_name) AS 'Employees',
               roles.id AS 'Role ID#', roles.title AS 'Title', roles.salary AS 'Salary', 
                 department_id AS 'Dept ID#', department.departmentname  AS 'Department',
                 CONCAT(e.first_name, ' ', e.last_name) AS 'Manager' 
@@ -487,21 +512,21 @@ function addEmployee() {
                 LEFT JOIN employee ON employee.role_id = roles.id 
                 INNER JOIN department ON department.id = roles.department_id 
                 LEFT JOIN employee e ON employee.manager_id = e.id
-                WHERE employee.id IS NOT NULL;`,
-                (err, data) => {
-                                 if (err) throw err;
-                               console.log(err);
-                               console.table(data);
-                                 console.log(
-                                   gradient.rainbow(
-                                     "*-----------------------------------------------------------------------------------------------------------------------*"
-                                   )
-                                 );
-                  
-                                 employeesGenerator();
-                               }
-                             );
-                          }
-                        );
-                       });
+                WHERE employee.id IS NOT NULL;
+                ;`,
+          (err, data) => {
+            if (err) throw err;
+            console.log(err);
+            console.table(data);
+            console.log(
+              gradient.rainbow(
+                "*---------------------------------------------Employee has been remove, table updated--------------------------------------------------------------------------*"
+              )
+            );
+
+            employeesGenerator();
+          }
+        );
+      });
+    });
 }
