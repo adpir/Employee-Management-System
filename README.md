@@ -69,7 +69,9 @@ Please make sure to update tests as appropriate.
 ### :octocat: Profile:
 
 [GitHub](https://github.com/adpir/Employee-Management-System)<br>
-[Video](https://drive.google.com/file/d/1HA0XkdmOKTPN7lpp2NEzxtvUvHd1yGiC/view?usp=sharing)<br>
+[Video](https://drive.google.com/file/d/1bVuzuA9LNYAws0Gb1KUapnc8roPo2n1R/view?usp=sharing)<br>
+[Video-2](https://drive.google.com/file/d/1wWXsfO_E63Jm0iZVOWmXN1uC-pdnz6gz/view?usp=sharing)
+
 
 
 
