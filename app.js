@@ -151,19 +151,6 @@ function updatemanager() {
       {
         type: "input",
         name: "employee_id",
-        // choices: [
-        //   { name: "Happy Year", value: 8 },
-        //   { name: "Estrella Shine", value: 9 },
-        //   { name: "Ana Light", value: 10 },
-        //   { name: "Julie Saas", value: 11 },
-        //   { name: "Joshua Lolo", value: 12 },
-        //   { name: "Dunes Star", value: 13 },
-        //   { name: "Jasmine Radiance", value: 14 },
-        //   { name: "Luz Blue", value: 15 },
-        //   { name: "Jil Kuyh", value: 16 },
-        //   { name: "Lola Roar", value: 17 },
-        //   { name: "None", value: null },
-        // ],
         message: "Which employee's ID you want to update?",
       },
 
